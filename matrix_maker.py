@@ -31,7 +31,7 @@ def simple_plate(plate):
             if left and top !="": plate[x][y] = left + " " + top
     return plate
 
-def ecrire_matrice_excel(matrice,Sample,Target):
+def ecrire_matrice_excel(matrice,Sample,Target,mode):
     couleurs_fond = [
     "F0F8FF",  # Alice Blue
     "E6E6FA",  # Lavender
@@ -119,7 +119,8 @@ def main():
     Fillers = apply_method(Sample,Target,mode)
     plate = plate_matrixer(Sample,Target,mode)
     if plate != False:
-        ecrire_matrice_excel(plate,Sample,Target)
+        return ecrire_matrice_excel(plate,Sample,Target,2)
+    
 
 main()
 #plate_matrixer(["S12Allprep","S14Allprep","S12RNeasy","S14RNeasy"],["423","669","16-1","103","16-5","223"],3)
