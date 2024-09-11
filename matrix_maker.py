@@ -20,7 +20,7 @@ def apply_method(S,T,mode):
     for s in S :
         for t in T :
             for i in range(mode):
-                fill +=[s+" "+t]
+                fill +=[s+" + "+t]
     return fill
 
 def simple_plate(plate):
@@ -33,34 +33,34 @@ def simple_plate(plate):
 
 def ecrire_matrice_excel(matrice,Sample,Target,mode):
     couleurs_fond = [
-    "F0F8FF",  # Alice Blue
-    "E6E6FA",  # Lavender
-    "F5F5DC",  # Beige
-    "FFFACD",  # Lemon Chiffon
-    "FDF5E6",  # Old Lace
-    "FAEBD7",  # Antique White
-    "F0FFF0",  # Honeydew
-    "F5FFFA",  # Mint Cream
-    "F0FFFF",  # Azure
-    "F5F5F5",  # White Smoke
-    "FFFFF0",  # Ivory
-    "F0F0F0"   # Gainsboro
-]
+    "DDEBF7", 
+    "FCE4D6", 
+    "FFF2CC", 
+    "E2EFDA", 
+    "D6DCE4",  
+    "C6F7D1",  
+    "D0BFE3",  
+    "FFA3A3",  
+    "D6FAFF",  
+    "F5FFD6",  
+    "FFD6FD", 
+    "C2ACAC"  
+    ]
 
     couleurs_texte = [
-    "8B0000",  # Dark Red
-    "2F4F4F",  # Dark Slate Gray
-    "3A3A3A",  # Dark Gray
-    "4B0082",  # Indigo
-    "5F9EA0",  # Cadet Blue
-    "556B2F",  # Dark Olive Green
-    "708090",  # Slate Gray
-    "2E8B57",  # Sea Green
-    "6A5ACD",  # Slate Blue
-    "8B4513",  # Saddle Brown
-    "800080",  # Purple
-    "483D8B"   # Dark Slate Blue
-]
+    "D98719",  # Dark Red
+    "FF1CAE",  # Dark Slate Gray
+    "FF2400",  # Dark Gray
+    "0000FF",  # Indigo
+    "00EA75",  # Cadet Blue
+    "238E23",  # Dark Olive Green
+    "FF7F00",  # Slate Gray
+    "4F2F4F",  # Sea Green
+    "CFB53B",  # Slate Blue
+    "2F4F4F",  # Saddle Brown
+    "7093DB",  # Purple
+    "5F9F9F"   # Dark Slate Blue
+    ]
 
     nom_fichier = "QPCR_plate_"+str(datetime.now().date())+".xlsx"
     wb = openpyxl.Workbook()
