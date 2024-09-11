@@ -3,7 +3,7 @@ import openpyxl
 from openpyxl.formatting.rule import FormulaRule
 from openpyxl.styles import PatternFill, Font
 from datetime import datetime
-
+from math import ceil
 path="C:\\Users\\paulo\\OneDrive\\Bureau\\"
 def main_input(char):
     échantillon = []
@@ -112,18 +112,36 @@ def plate_matrixer(S,T,mode):
 
     return simple_plate(plate)
 
+def complex_plate_matrixer(Fill):
+    nb_plate = ceil(len(Fill)/96)
+    plate = np.zeros((9,13*nb_plate+2*nb_plate-1),dtype="U60")
+    count=0
+    for tour in range(nb_plate):
+        for x in range(count+0,count+13):
+            if x-count==0 :
+                left =("A","B","C","D","E","F","G","H")
+                for name,y in zip(left,range(1,9)):
+                    plate[y][x]=name
+            else :
+                plate[0][x]=str(x-count)
+        for y in range(1,9):
+            for x in range(count+1,count+13):
+                if len(Fill)>0:
+                    plate[y][x]=Fill[0]
+                    Fill.pop(0)
+        count += 15
+    return plate
+    
+
 def main():
     Sample= main_input("Noms des écchantillons/controles :\nSi finit just clic enter :\n")
     Target= main_input("Noms des ammorces/targets :\nSi finit just clic enter :\n")
     mode = int(input("Simplicat [1], Duplicat [2], Triplicat [3]"))
     Fillers = apply_method(Sample,Target,mode)
     plate = plate_matrixer(Sample,Target,mode)
-    if plate != False:
-        return ecrire_matrice_excel(plate,Sample,Target,2)
+    if plate == False:
+        plate = complex_plate_matrixer(Fillers)
+    return ecrire_matrice_excel(plate,Sample,Target,2)
     
-
 main()
 #plate_matrixer(["S12Allprep","S14Allprep","S12RNeasy","S14RNeasy"],["423","669","16-1","103","16-5","223"],3)
-
-
-    
