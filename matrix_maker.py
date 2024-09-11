@@ -1,7 +1,7 @@
 import numpy as np
 import openpyxl
 from openpyxl.formatting.rule import FormulaRule
-from openpyxl.styles import PatternFill, Font, Border, Side
+from openpyxl.styles import PatternFill, Font, Border, Side, Alignment
 from openpyxl.utils import get_column_letter
 from datetime import datetime
 from math import ceil, floor
@@ -92,7 +92,11 @@ def ecrire_matrice_excel(matrice,Sample,Target,mode):
         
     for i in range(matrice.shape[0]):  # Pour chaque ligne
         for j in range(matrice.shape[1]):  # Pour chaque colonne
-            sheet.cell(row=i+1, column=j+1, value=matrice[i, j])  # Insérer la valeur dans Excel
+            sheet.cell(row=i+1, column=j+1, value=matrice[i, j])
+            currentCell = sheet[f"{get_column_letter(j+1)}{i+1}"] #or currentCell = ws['A1']
+            currentCell.alignment = Alignment(horizontal='center')
+             #or currentCell = ws['A1']
+            # Insérer la valeur dans Excel
             # sheet[f"{get_column_letter(j+1)}{i+1}"].border = bordure(('left','right','top','bottom'),'thin')
 
     for x in range(len(Sample)) :
@@ -129,7 +133,7 @@ def plate_matrixer(S,T,mode):
     elif len(T)<8 and len(S)*mode<=12:
         left = T; top = S
     else :
-        return False
+        return None
     for x in range(len(left)) :
         plate[x+1][0] = left[x]
     ntop=[]
@@ -166,7 +170,7 @@ def main():
     mode = int(input("Simplicat [1], Duplicat [2], Triplicat [3]"))
     Fillers = apply_method(Sample,Target,mode)
     plate = plate_matrixer(Sample,Target,mode)
-    if plate == False:
+    if plate is None:
         plate = complex_plate_matrixer(Fillers)
     return ecrire_matrice_excel(plate,Sample,Target,2)
     
