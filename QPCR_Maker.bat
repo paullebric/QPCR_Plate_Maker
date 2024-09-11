@@ -1,0 +1,1 @@
+start cmd /k python "C:\Users\paulo\OneDrive\Documents\GitHub\QPCR_Plate_Maker\matrix_maker.py"

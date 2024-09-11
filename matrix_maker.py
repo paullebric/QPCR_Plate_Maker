@@ -5,11 +5,11 @@ from openpyxl.styles import PatternFill, Font
 from datetime import datetime
 from math import ceil
 path="C:\\Users\\paulo\\OneDrive\\Bureau\\"
+
 def main_input(char):
-    échantillon = []
+    échantillon = [input(char)]
     while True :
-        échantillon += [input(char)]
-        print(échantillon[-1])
+        échantillon += [input()]
         if échantillon[-1] == "":
             échantillon.pop(-1)
             break
@@ -134,8 +134,8 @@ def complex_plate_matrixer(Fill):
     
 
 def main():
-    Sample= main_input("Noms des écchantillons/controles :\nSi finit just clic enter :\n")
-    Target= main_input("Noms des ammorces/targets :\nSi finit just clic enter :\n")
+    Sample= main_input("Noms des écchantillons/controles, Si tout les échantillons entrés clic enter :\n")
+    Target= main_input("Noms des ammorces/targets, Si tout les targets entrés clic enter :\n")
     mode = int(input("Simplicat [1], Duplicat [2], Triplicat [3]"))
     Fillers = apply_method(Sample,Target,mode)
     plate = plate_matrixer(Sample,Target,mode)
