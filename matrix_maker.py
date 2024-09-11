@@ -1,9 +1,10 @@
 import numpy as np
 import openpyxl
 from openpyxl.formatting.rule import FormulaRule
-from openpyxl.styles import PatternFill, Font
+from openpyxl.styles import PatternFill, Font, Border, Side
+from openpyxl.utils import get_column_letter
 from datetime import datetime
-from math import ceil
+from math import ceil, floor
 path="C:\\Users\\paulo\\OneDrive\\Bureau\\"
 
 def main_input(char):
@@ -29,7 +30,21 @@ def simple_plate(plate):
             left = plate[x][0]
             top = plate[0][y]
             if left and top !="": plate[x][y] = left + " " + top
+    for x in range(1,9):
+        plate[x][0]=get_column_letter(x)
+    for y in range(1,13):
+        plate[0][y]=y
+        
     return plate
+
+def bordure(side):
+    border_style = Border(
+    left=Side(style=side["left"], color="000000") if 'left' in side else None,
+    right=Side(style=side["right"], color="000000") if 'right' in side else None,
+    top=Side(style=side["top"], color="000000") if 'top' in side else None,
+    bottom=Side(style=side["bottom"], color="000000") if 'bottom'in side else None,
+    )
+    return border_style
 
 def ecrire_matrice_excel(matrice,Sample,Target,mode):
     couleurs_fond = [
@@ -73,11 +88,12 @@ def ecrire_matrice_excel(matrice,Sample,Target,mode):
                     max_length = len(matrice[x][y])
     
     for x in range(42):
-        sheet.column_dimensions[openpyxl.utils.get_column_letter(x+1)].width = max_length
+        sheet.column_dimensions[get_column_letter(x+1)].width = max_length
         
     for i in range(matrice.shape[0]):  # Pour chaque ligne
         for j in range(matrice.shape[1]):  # Pour chaque colonne
             sheet.cell(row=i+1, column=j+1, value=matrice[i, j])  # Insérer la valeur dans Excel
+            # sheet[f"{get_column_letter(j+1)}{i+1}"].border = bordure(('left','right','top','bottom'),'thin')
 
     for x in range(len(Sample)) :
         couleur = couleurs_fond[x % len(couleurs_fond)]  # Assurer que les couleurs sont cyclées si plus d'échantillons que de couleurs
@@ -92,6 +108,17 @@ def ecrire_matrice_excel(matrice,Sample,Target,mode):
         formula = f'ISNUMBER(SEARCH("{Target[x]}", A1))'
         rule = FormulaRule(formula=[formula], font=font)
         sheet.conditional_formatting.add('A1:BZ10', rule)
+    
+    nb_plate = floor(matrice.shape[0]*matrice.shape[1]/96)
+    count=0
+    for tour in range(nb_plate):
+        for x in range(count+0,count+13):
+            for y in range(1,10):
+                sheet[f"{get_column_letter(x+1)}{y}"].border = bordure({'left':'thick' if x-count==0 else 'thin',
+                                                                        'right':'thick'if x-count==12 else 'thin',
+                                                                        'top':'thick'if y==1 else 'thin',
+                                                                        'bottom':'thick'if y==9 else 'thin'})
+        count += 15
     wb.save(path+nom_fichier)
     print(f"Fichier {nom_fichier} créé avec succès!")
 
