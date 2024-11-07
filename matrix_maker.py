@@ -130,7 +130,7 @@ def plate_matrixer(S,T,mode):
     plate = np.zeros((9,13),dtype='U60')
     if len(S)<=8 and len(T)*mode<=12:
         left = S ;top = T
-    elif len(T)<8 and len(S)*mode<=12:
+    elif len(T)<=8 and len(S)*mode<=12:
         left = T; top = S
     else :
         return None
@@ -163,7 +163,6 @@ def complex_plate_matrixer(Fill):
         count += 15
     return plate
     
-
 def main():
     Sample= main_input("Noms des écchantillons/controles, Si tout les échantillons entrés clic enter :\n")
     Target= main_input("Noms des ammorces/targets, Si tout les targets entrés clic enter :\n")
